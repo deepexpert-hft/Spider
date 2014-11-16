@@ -1,0 +1,63 @@
+#__author__ = 'hefangteng'
+# coding:utf8
+
+import chardet
+import urllib
+import urllib2
+import requests
+import re
+
+#用urllib、urllib2的方法获取html
+'''def GetHtml(url,value):
+    data = urllib.urlencode(value)
+    req = urllib2.Request(url,data)
+    html = urllib2.urlopen(req).read()
+    code = chardet.detect(html).get('encoding','utf-8')
+    html = html.decode(code,'ignore').encode('utf-8')
+    return html'''
+
+#用requests的方法获取html
+def GetHtml(url,data):
+    html = requests.post(url,data)
+    return html
+
+#获取提交表单得到的value值
+def Get_Value(html):
+    req = '<tr height=.*?value=\'(.*?)\' />'
+    valuelist = re.compile(req).findall(html)
+    for value in valuelist:
+        return value
+
+#获取所有5位字母以内的字符串
+def Get_all_str():
+    a = []
+    for i in range(97,123):
+        a.append(chr(i)+'.cc')
+        for k in range(97,123):
+            a.append(chr(i)+chr(k)+'.cc')
+    return a
+'''for y in range(97,123):
+                a.append(chr(i)+chr(k)+chr(y)+'.com')
+                for x in range(97,123):
+                    a.append(chr(i)+chr(k)+chr(y)+chr(x)+'.com')
+                    for m in range(97,123):
+                        a.append(chr(i)+chr(k)+chr(y)+chr(x)+chr(m)+'.com')'''
+
+
+#筛选所有可用的域名
+def Do_screen(url):
+    a = Get_all_str();
+    f = open('result.txt','w')
+    for x in a:
+        data = {'d_name':x,'dtype':'common'}
+        html = GetHtml(url,data)
+        value = Get_Value(html.content)
+        print x,value
+        if(value == 'no'):              #value为no即为可用域名
+            print '可用域名:'+x
+            f.write(x+'\n')             #将可用域名网址写入文本文件
+    return f
+
+url = 'http://www.zgsj.com/domain_reg/domaintrans.asp'
+file = Do_screen(url)
+file.close()

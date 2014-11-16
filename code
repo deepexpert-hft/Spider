@@ -32,17 +32,16 @@ def Get_Value(html):
 def Get_all_str():
     a = []
     for i in range(97,123):
-        a.append(chr(i)+'.cc')
+        a.append(chr(i)+'.com')
         for k in range(97,123):
-            a.append(chr(i)+chr(k)+'.cc')
-    return a
-'''for y in range(97,123):
+            a.append(chr(i)+chr(k)+'.com')
+            for y in range(97,123):
                 a.append(chr(i)+chr(k)+chr(y)+'.com')
                 for x in range(97,123):
                     a.append(chr(i)+chr(k)+chr(y)+chr(x)+'.com')
                     for m in range(97,123):
-                        a.append(chr(i)+chr(k)+chr(y)+chr(x)+chr(m)+'.com')'''
-
+                        a.append(chr(i)+chr(k)+chr(y)+chr(x)+chr(m)+'.com')
+    return a
 
 #筛选所有可用的域名
 def Do_screen(url):
